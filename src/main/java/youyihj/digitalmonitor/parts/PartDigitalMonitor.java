@@ -87,7 +87,7 @@ public class PartDigitalMonitor extends PartStorageMonitor implements IGridTicka
                 long flowNow = gauge.getFlow();
                 if (flow != flowNow) {
                     flow = flowNow;
-                    updateTileEntity(node);
+                    this.getHost().markForUpdate();
                 }
             }
         } catch (GridAccessException ignored) {
@@ -128,11 +128,5 @@ public class PartDigitalMonitor extends PartStorageMonitor implements IGridTicka
         GlStateManager.translate(-0.5F * fontRenderer.getStringWidth(s), 0.0F, 0.5F);
         fontRenderer.drawString(s, 0, 0, 0);
         GlStateManager.popMatrix();
-    }
-
-    private void updateTileEntity(IGridNode node) {
-        BlockPos pos = node.getGridBlock().getLocation().getPos();
-        IBlockState blockState = node.getWorld().getBlockState(pos);
-        node.getWorld().notifyBlockUpdate(pos, blockState, blockState, Constants.BlockFlags.SEND_TO_CLIENTS);
     }
 }
